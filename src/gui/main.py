@@ -1,13 +1,20 @@
 import customtkinter
 
-customtkinter.set_appearance_mode("dark")
-customtkinter.set_default_color_theme("dark-blue")
 
-root = customtkinter.CTk()
-root.geometry("500x350")
-root.title("EZLauncher")
+class App(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
 
-frame = customtkinter.CTkFrame(master=root)
-frame.pack(pady=20, padx=60, fill="both", expand=True)
+        self.title("EZLauncher")
+        self.minsize(1200, 750)
 
-root.mainloop()
+        self.button = customtkinter.CTkButton(master=self, command=self.button_callback)
+        self.button.pack(padx=20, pady=20)
+
+    def button_callback(self):
+        print("button pressed")
+
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
