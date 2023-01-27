@@ -6,3 +6,5 @@ def base():
     r.title("EZLauncher")
     r.geometry("900x750")
     r.mainloop()
+
+test
