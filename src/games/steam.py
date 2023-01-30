@@ -56,7 +56,9 @@ class SteamGameFinder:
                     
                 
 
-
-# steam_app_folder = r"C:\Program Files (x86)\Steam\steamapps"
-# steam_parser = SteamGameParser(steam_app_folder=steam_app_folder)
-# print(steam_parser.get_installed_games_info())
+#Uncomment these lines for module example
+#steam_app_folder = r"C:\Program Files (x86)\Steam\steamapps"
+#steam_parser = SteamGameFinder(steam_app_folder=steam_app_folder)
+#print(steam_parser.get_installed_games_info())
+#import subprocess
+#subprocess.call(r"C:\Program Files (x86)\Steam\Steam.exe -applaunch 228980")
