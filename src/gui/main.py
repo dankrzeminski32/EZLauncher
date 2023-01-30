@@ -1,5 +1,5 @@
 import customtkinter
-
+from src.games.steam import SteamGameFinder
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -9,11 +9,27 @@ class App(customtkinter.CTk):
         self.minsize(1200, 750)
 
         self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(0,weight=1)
+        self.grid_columnconfigure(1, weight=8)
+        
 
+        ####### CENTER GAME LIBRARY #######
+        self.game_library_frame = customtkinter.CTkFrame(self, width=700, height=600)
+        self.game_library_frame.grid(row=0,column=1)
+        self.game_library_frame.grid_columnconfigure(0,weight=1)
+        self.game_library_frame.grid_rowconfigure(0,weight=1)
+        
+        
+        self.game_library_title_label = customtkinter.CTkLabel(self.game_library_frame, text="Steam Games - Subject to Change", font=customtkinter.CTkFont(size=25, weight="bold"))
+        self.game_library_title_label.grid(row=0,column=0,padx=20, pady=20)
+        
+        self.game_library_game_list_frame = customtkinter.CTkFrame(self.game_library_frame, width=700, height=550)
+        self.game_library_game_list_frame.grid(row=1,column=0,padx=20, pady=20)
+        self.display_steam_games(self.game_library_game_list_frame)
+
+        ####### NAVIGATION SIDE PANEL #######
         self.navigation_frame = customtkinter.CTkFrame(self, corner_radius=0)
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
-        self.navigation_frame.grid_rowconfigure(6, weight=1)
 
         self.navigation_frame_label = customtkinter.CTkLabel(
             self.navigation_frame,
@@ -30,12 +46,11 @@ class App(customtkinter.CTk):
             corner_radius=0,
             height=40,
             border_spacing=10,
-            text="Game Launch Test HERE",
+            text="Home",
             fg_color="transparent",
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="w",
-            command=self.home_button_event,
         )
 
         self.home_button.grid(row=1, column=0, sticky="ew")
@@ -91,46 +106,10 @@ class App(customtkinter.CTk):
             anchor="w",
         )
         self.ubisoft_button.grid(row=4, column=0, sticky="ew")
-
-        self.home_frame = customtkinter.CTkFrame(
-            self, corner_radius=0, fg_color="transparent"
-        )
-        self.home_frame.grid_columnconfigure(0, weight=1)
-        self.home_frame_button_1 = customtkinter.CTkButton(self.home_frame, text="")
-        self.home_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
-        self.home_frame_button_2 = customtkinter.CTkButton(
-            self.home_frame,
-            text="CTkButton",
-            compound="right",
-        )
-        self.home_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
-        self.home_frame_button_3 = customtkinter.CTkButton(
-            self.home_frame,
-            text="CTkButton",
-            compound="top",
-        )
-        self.home_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
-        self.home_frame_button_4 = customtkinter.CTkButton(
-            self.home_frame,
-            text="CTkButton",
-            compound="bottom",
-            anchor="w",
-        )
-        self.home_frame_button_4.grid(row=2, column=2, padx=20, pady=10)
-
-        self.select_frame_by_name("home")
-
-    def button_callback(self):
-        print("button pressed")
-
-    def select_frame_by_name(self, name):
-        self.home_button.configure(
-            fg_color=("gray75", "gray25") if name == "home" else "transparent"
-        )
-        if name == "home":
-            self.home_frame.grid(row=0, column=1, sticky="nsew")
-        else:
-            self.home_frame.grid_forget()
-
-    def home_button_event(self):
-        self.select_frame_by_name("home")
+        
+    def display_steam_games(self, frame: customtkinter.CTkFrame):
+        game_finder = SteamGameFinder()
+        steam_games = game_finder.get_installed_games_info()
+        for idx,game in enumerate(steam_games,start=2):
+            setattr(self, game.id, customtkinter.CTkLabel(frame, text=game.game_title, font=customtkinter.CTkFont(size=13, weight="bold")))
+            getattr(self, game.id).grid(row=idx,column=0,padx=30, pady=30)
