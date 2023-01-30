@@ -1,7 +1,8 @@
 import tkinter as tk
+from tkinter.messagebox import askyesno
 
 def verify_game_pick(game_name):
-    msg_box = tk.messagebox.askquestion('Start' + game_name, 'Are you sure you want to play ' + game_name, icon='warning')
+    answer = answer = askyesno(title='Launch' + game_name + '?',message='Are you sure you want to launch ' + game_name + "?")
 
-    if msg_box == 'yes':
+    if answer:
         #boot method for game
