@@ -40,7 +40,6 @@ class SteamGameFinder:
     def get_installed_games_info(self) -> list[SteamGame]:
         manifest_file_paths: list[str] = self._get_all_manifest_files()
         all_games_info: list[SteamGame] = []
-        print(manifest_file_paths)
         for file in manifest_file_paths:
             f = open(file, "r")
             for idx, line in enumerate(f):
