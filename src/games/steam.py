@@ -19,7 +19,7 @@ class SteamGame:
        return 'id: %s game_title: %s' % (self.id, self.game_title)    
         
 class SteamGameFinder:
-    def __init__(self, steam_app_folder:str):
+    def __init__(self, steam_app_folder:str="C:\Program Files (x86)\Steam\steamapps"):
         self.steam_app_folder = steam_app_folder
         
     def _get_all_manifest_files(self) -> list[str]:
