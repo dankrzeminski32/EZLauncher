@@ -1,5 +1,7 @@
 import customtkinter
 from src.games.steam import SteamGameFinder
+from src.gui.buttons import *
+
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -9,22 +11,26 @@ class App(customtkinter.CTk):
         self.minsize(1200, 750)
 
         self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(0,weight=1)
+        self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=8)
-        
 
         ####### CENTER GAME LIBRARY #######
         self.game_library_frame = customtkinter.CTkFrame(self, width=700, height=600)
-        self.game_library_frame.grid(row=0,column=1)
-        self.game_library_frame.grid_columnconfigure(0,weight=1)
-        self.game_library_frame.grid_rowconfigure(0,weight=1)
-        
-        
-        self.game_library_title_label = customtkinter.CTkLabel(self.game_library_frame, text="Steam Games - Subject to Change", font=customtkinter.CTkFont(size=25, weight="bold"))
-        self.game_library_title_label.grid(row=0,column=0,padx=20, pady=20)
-        
-        self.game_library_game_list_frame = customtkinter.CTkFrame(self.game_library_frame, width=700, height=550)
-        self.game_library_game_list_frame.grid(row=1,column=0,padx=20, pady=20)
+        self.game_library_frame.grid(row=0, column=1)
+        self.game_library_frame.grid_columnconfigure(0, weight=1)
+        self.game_library_frame.grid_rowconfigure(0, weight=1)
+
+        self.game_library_title_label = customtkinter.CTkLabel(
+            self.game_library_frame,
+            text="Steam Games - Subject to Change",
+            font=customtkinter.CTkFont(size=25, weight="bold"),
+        )
+        self.game_library_title_label.grid(row=0, column=0, padx=20, pady=20)
+
+        self.game_library_game_list_frame = customtkinter.CTkFrame(
+            self.game_library_frame, width=700, height=550
+        )
+        self.game_library_game_list_frame.grid(row=1, column=0, padx=20, pady=20)
         self.display_steam_games(self.game_library_game_list_frame)
 
         ####### NAVIGATION SIDE PANEL #######
@@ -106,10 +112,18 @@ class App(customtkinter.CTk):
             anchor="w",
         )
         self.ubisoft_button.grid(row=4, column=0, sticky="ew")
-        
+
     def display_steam_games(self, frame: customtkinter.CTkFrame):
         game_finder = SteamGameFinder()
         steam_games = game_finder.get_installed_games_info()
-        for idx,game in enumerate(steam_games,start=2):
-            setattr(self, game.id, customtkinter.CTkLabel(frame, text=game.game_title, font=customtkinter.CTkFont(size=13, weight="bold")))
-            getattr(self, game.id).grid(row=idx,column=0,padx=30, pady=30)
+        for idx, game in enumerate(steam_games, start=2):
+            setattr(
+                self,
+                game.id,
+                customtkinter.CTkLabel(
+                    frame,
+                    text=game.game_title,
+                    font=customtkinter.CTkFont(size=13, weight="bold"),
+                ),
+            )
+            getattr(self, game.id).grid(row=idx, column=0, padx=30, pady=30)
