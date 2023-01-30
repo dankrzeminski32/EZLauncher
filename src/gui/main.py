@@ -134,8 +134,3 @@ class App(customtkinter.CTk):
 
     def home_button_event(self):
         self.select_frame_by_name("home")
-
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
