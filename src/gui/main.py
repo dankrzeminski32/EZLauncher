@@ -1,5 +1,6 @@
 import customtkinter
 from src.games.steam import SteamGameFinder
+import subprocess
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -107,9 +108,15 @@ class App(customtkinter.CTk):
         )
         self.ubisoft_button.grid(row=4, column=0, sticky="ew")
         
-    def display_steam_games(self, frame: customtkinter.CTkFrame):
+    def display_steam_games(self, frame: customtkinter.CTkFrame) -> None:
         game_finder = SteamGameFinder()
         steam_games = game_finder.get_installed_games_info()
         for idx,game in enumerate(steam_games,start=2):
-            setattr(self, game.id, customtkinter.CTkLabel(frame, text=game.game_title, font=customtkinter.CTkFont(size=13, weight="bold")))
+            game_label = customtkinter.CTkLabel(frame, text=game.game_title, font=customtkinter.CTkFont(size=13, weight="bold"), cursor="hand2")
+            game_label.bind("<Button-1>",lambda event, game_id=game.id: self.run_steam_game(game_id))
+            setattr(self, game.id, game_label)
             getattr(self, game.id).grid(row=idx,column=0,padx=30, pady=30)
+            
+    def run_steam_game(self, game_id: str) -> None:
+        #TODO - PATH BELOW WILL HAVE TO BE A VARIABLE THAT CAN BE UPDATED IN SETTINGS (STEAM EXECUTABLE)
+        subprocess.call(r"C:\Program Files (x86)\Steam\Steam.exe -applaunch " + game_id)
