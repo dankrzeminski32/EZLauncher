@@ -118,4 +118,5 @@ class App(customtkinter.CTk):
             getattr(self, game.id).grid(row=idx,column=0,padx=30, pady=30)
             
     def run_steam_game(self, game_id: str) -> None:
+        #TODO - PATH BELOW WILL HAVE TO BE A VARIABLE THAT CAN BE UPDATED IN SETTINGS (STEAM EXECUTABLE)
         subprocess.call(r"C:\Program Files (x86)\Steam\Steam.exe -applaunch " + game_id)
