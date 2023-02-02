@@ -46,7 +46,7 @@ class App(customtkinter.CTk):
             height=40,
             border_spacing=10,
             text="Home",
-            fg_color="transparent",
+            fg_color="gray70",
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="w",
@@ -121,7 +121,7 @@ class App(customtkinter.CTk):
     def set_selected_sidebar_indication(self, selected_button: str):
         selected_button: customtkinter.CTkButton = getattr(self, selected_button)
         self.unselect_other_buttons(selected_button.winfo_name())
-        selected_button.configure(bg_color="gray70")
+        selected_button.configure(fg_color="gray70")
         
     def unselect_other_buttons(self, current_item: str):
         sidebar_items = self.navigation_frame.winfo_children()
@@ -129,4 +129,4 @@ class App(customtkinter.CTk):
             if(isinstance(widget, customtkinter.CTkButton)):
                 if(widget.winfo_name()==current_item):
                     pass
-                widget.configure(bg_color="transparent")
+                widget.configure(fg_color="transparent")
