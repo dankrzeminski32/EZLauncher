@@ -40,20 +40,19 @@ class App(customtkinter.CTk):
         )
 
         self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
-
-        # To add button action add command= (method that launches the game)
+            
         self.home_button = customtkinter.CTkButton(
             self.navigation_frame,
             corner_radius=0,
             height=40,
             border_spacing=10,
             text="Home",
-            fg_color="transparent",
+            fg_color="gray70",
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="w",
+            command=lambda button="home_button": self.set_selected_sidebar_indication(button)
         )
-
         self.home_button.grid(row=1, column=0, sticky="ew")
 
         self.steam_button = customtkinter.CTkButton(
@@ -66,6 +65,7 @@ class App(customtkinter.CTk):
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="w",
+            command=lambda button="steam_button": self.set_selected_sidebar_indication(button)
         )
         self.steam_button.grid(row=2, column=0, sticky="ew")
 
@@ -79,6 +79,7 @@ class App(customtkinter.CTk):
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="w",
+            command=lambda button="battle_net_button": self.set_selected_sidebar_indication(button)
         )
         self.battle_net_button.grid(row=3, column=0, sticky="ew")
 
@@ -92,7 +93,9 @@ class App(customtkinter.CTk):
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="w",
+            command=lambda button="epic_games_button": self.set_selected_sidebar_indication(button)
         )
+        
         self.epic_games_button.grid(row=4, column=0, sticky="ew")
 
         self.ubisoft_button = customtkinter.CTkButton(
@@ -105,8 +108,9 @@ class App(customtkinter.CTk):
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="w",
+            command=lambda button="ubisoft_button": self.set_selected_sidebar_indication(button)
         )
-        self.ubisoft_button.grid(row=4, column=0, sticky="ew")
+        self.ubisoft_button.grid(row=5, column=0, sticky="ew")
         
     def display_steam_games(self, frame: customtkinter.CTkFrame) -> None:
         game_finder = SteamGameFinder()
@@ -116,6 +120,19 @@ class App(customtkinter.CTk):
             game_label.bind("<Button-1>",lambda event, game_id=game.id: self.run_steam_game(game_id))
             setattr(self, game.id, game_label)
             getattr(self, game.id).grid(row=idx,column=0,padx=30, pady=30)
+            
+    def set_selected_sidebar_indication(self, selected_button: str):
+        selected_button: customtkinter.CTkButton = getattr(self, selected_button)
+        self.unselect_other_buttons(selected_button.winfo_name())
+        selected_button.configure(fg_color="gray70")
+        
+    def unselect_other_buttons(self, current_item: str):
+        sidebar_items = self.navigation_frame.winfo_children()
+        for widget in sidebar_items:
+            if(isinstance(widget, customtkinter.CTkButton)):
+                if(widget.winfo_name()==current_item):
+                    pass
+                widget.configure(fg_color="transparent")
             
     def run_steam_game(self, game_id: str) -> None:
         #TODO - PATH BELOW WILL HAVE TO BE A VARIABLE THAT CAN BE UPDATED IN SETTINGS (STEAM EXECUTABLE)
